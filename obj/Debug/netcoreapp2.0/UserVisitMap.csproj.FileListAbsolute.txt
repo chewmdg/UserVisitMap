@@ -1,0 +1,10 @@
+C:\Users\mgibson\Source\Repos\UserVisitMap\bin\Debug\netcoreapp2.0\UserVisitMap.deps.json
+C:\Users\mgibson\Source\Repos\UserVisitMap\bin\Debug\netcoreapp2.0\UserVisitMap.runtimeconfig.json
+C:\Users\mgibson\Source\Repos\UserVisitMap\bin\Debug\netcoreapp2.0\UserVisitMap.runtimeconfig.dev.json
+C:\Users\mgibson\Source\Repos\UserVisitMap\bin\Debug\netcoreapp2.0\UserVisitMap.dll
+C:\Users\mgibson\Source\Repos\UserVisitMap\bin\Debug\netcoreapp2.0\UserVisitMap.pdb
+C:\Users\mgibson\Source\Repos\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.csproj.CoreCompileInputs.cache
+C:\Users\mgibson\Source\Repos\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.AssemblyInfoInputs.cache
+C:\Users\mgibson\Source\Repos\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.AssemblyInfo.cs
+C:\Users\mgibson\Source\Repos\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.dll
+C:\Users\mgibson\Source\Repos\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.pdb
