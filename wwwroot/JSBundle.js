@@ -23381,7 +23381,8 @@ var Main = function (_React$Component) {
 
         _this.state = {
             cities: [],
-            regions: []
+            regions: [],
+            selectedRegion: ""
         };
         return _this;
     }
@@ -23398,14 +23399,36 @@ var Main = function (_React$Component) {
             });
 
             _jquery2.default.getJSON('../api/Region', function (data) {
+                data.unshift({ "name": "All Regions", "_id": "0000000" });
                 _this2.setState({
                     regions: data
                 });
             });
         }
     }, {
+        key: 'handleRegionChange',
+        value: function handleRegionChange(e) {
+
+            this.setState({
+                selectedRegion: e.target.value
+            }, this.updateCities(e.target.value));
+        }
+    }, {
+        key: 'updateCities',
+        value: function updateCities(region) {
+            var _this3 = this;
+
+            _jquery2.default.getJSON('../api/City?regionName=' + region, function (data) {
+                _this3.setState({
+                    cities: data
+                });
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this4 = this;
+
             return _react2.default.createElement(
                 'div',
                 null,
@@ -23414,32 +23437,14 @@ var Main = function (_React$Component) {
                     null,
                     _react2.default.createElement(
                         'label',
-                        { className: 'label' },
-                        'Cities'
+                        null,
+                        'Region'
                     ),
                     _react2.default.createElement(
                         'select',
-                        null,
-                        this.state.cities.map(function (x) {
-                            return _react2.default.createElement(
-                                'option',
-                                { key: x.name + x.latitude, value: x.name },
-                                x.name
-                            );
-                        })
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(
-                        'label',
-                        null,
-                        'Regions'
-                    ),
-                    _react2.default.createElement(
-                        'select',
-                        null,
+                        { onChange: function onChange(e) {
+                                _this4.handleRegionChange(e);
+                            } },
                         this.state.regions.map(function (x) {
                             return _react2.default.createElement(
                                 'option',

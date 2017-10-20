@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import $ from 'jquery';
-import {RegionTable} from './regiontable.jsx'
+import { RegionTable } from './regiontable.jsx'
 
 class Main extends React.Component {
     constructor() {
@@ -10,6 +10,7 @@ class Main extends React.Component {
         this.state = {
             cities: [],
             regions: [],
+            selectedRegion: "",
         };
     }
 
@@ -23,6 +24,7 @@ class Main extends React.Component {
         })
 
         $.getJSON('../api/Region', data => {
+            data.unshift({"name":"All Regions", "_id": "0000000"})
             this.setState(
                 {
                     regions: data,
@@ -31,23 +33,41 @@ class Main extends React.Component {
         })
     }
 
+    handleRegionChange(e) {
+       
+        this.setState({
+             selectedRegion: e.target.value
+            },
+            this.updateCities(e.target.value)
+        )
+            
+    }
+
+    updateCities(region) {
+        $.getJSON('../api/City?regionName=' + region, data => {
+            this.setState({
+                    cities: data
+                })
+        })
+    }
+
     render() {
         return (
             <div>
-                <div>
-                    <label className="label">Cities</label>
+                {/* <div>
+                    <label className="label">City</label>
                     <select>
                         {this.state.cities.map((x) => { return (<option key={x.name + x.latitude} value={x.name}>{x.name}</option>) })}
                     </select>
-                </div>
+                </div> */}
                 <div>
-                    <label>Regions</label>
-                    <select>
+                    <label>Region</label>
+                    <select onChange={(e) => { this.handleRegionChange(e) }}>
                         {this.state.regions.map((x) => { return (<option key={x._id} value={x.name}>{x.name}</option>) })}
                     </select>
                 </div>
                 <div>
-                <RegionTable cities = {this.state.cities}/>
+                    <RegionTable cities={this.state.cities} />
                 </div>
             </div>
         )
