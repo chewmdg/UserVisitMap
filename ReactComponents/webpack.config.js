@@ -24,7 +24,7 @@ module: {
             },
             {
                 test: /\.css$/,
-                loaders: ["style","css"]
+                loaders: ["style-loader","css-loader"]
 
             }
             ]}

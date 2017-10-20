@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using UserVisitMap.Models;
 
 namespace UserVisitMap.Controllers
 {
@@ -11,9 +12,14 @@ namespace UserVisitMap.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        //[Route("")]
+        //[Route("{regionName}")]
+        public IEnumerable<City> Get([FromQuery]string regionName = "")
         {
-            return new string[] { "value1", "value2" };
+            var city = new City();
+
+            return city.ReadCities(regionName);
+            
         }
 
         // GET api/values/5

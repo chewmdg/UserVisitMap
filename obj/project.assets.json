@@ -12851,6 +12851,7 @@
       "Microsoft.AspNetCore.All >= 2.0.0",
       "Microsoft.AspNetCore.StaticFiles >= 2.0.0",
       "Microsoft.NETCore.App >= 2.0.0",
+      "MongoDB.Bson >= 2.4.4",
       "MongoDB.Driver >= 2.4.4"
     ]
   },
@@ -12905,6 +12906,10 @@
           "Microsoft.AspNetCore.StaticFiles": {
             "target": "Package",
             "version": "2.0.0"
+          },
+          "MongoDB.Bson": {
+            "target": "Package",
+            "version": "2.4.4"
           },
           "MongoDB.Driver": {
             "target": "Package",
