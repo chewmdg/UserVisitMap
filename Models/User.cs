@@ -22,12 +22,11 @@ namespace UserVisitMap.Models
         public DateTime DateTimeAdded {get; set;}
         public DateTime LastUpdated {get; set;}
 
-        public List<User> ReadUsers()
+        public List<User> ReadUsers(string name = "")
         {
             var users = new List<User>();
-            var filter = new BsonDocument();
 
-            users = DBContext.mongoConnect<User>(Constants.USER).Find(filter).ToList();
+            users = DBContext.mongoConnect<User>(Constants.USER).Find(x => x.FirstName == name || name=="").ToList();
             return users;
         }
     }

@@ -11,23 +11,23 @@ using UserVisitMap.Utilities;
 
 namespace UserVisitMap.Models
 {
-    public class Region
+    public class UserVisit
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string _id { get; set; }
-        public string Name {get; set;}
-        public string Abbreviation {get; set;}
+        public string user_id {get; set;}
+        public string City {get; set;}
         public DateTime DateAdded {get; set;}
         public DateTime DateTimeAdded {get; set;}
         public DateTime LastUpdated {get; set;}
-        public List<City> Cities { get; set; }
-        public List<Region> ReadRegions(string regionName = "")
-        {
-            var regions = new List<Region>();
 
-            regions = DBContext.mongoConnect<Region>(Constants.REGION).Find(x => x.Name == regionName || regionName=="").ToList();
-            return regions;
+        public List<UserVisit> ReadUserVisit(string user_id = "")
+        {
+            var userVisits = new List<UserVisit>();
+
+            userVisits = DBContext.mongoConnect<UserVisit>(Constants.USERVISIT).Find(x => x.user_id == _id || _id=="").ToList();
+            return userVisits;
         }
     }
 }

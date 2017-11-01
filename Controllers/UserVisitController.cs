@@ -8,17 +8,16 @@ using UserVisitMap.Models;
 namespace UserVisitMap.Controllers
 {
     [Route("api/[controller]")]
-    public class UserController : Controller
+    public class UserVisitController : Controller
     {
         // GET api/values
-        public IEnumerable<User> Get([FromQuery]string userName = "")
+        public IEnumerable<UserVisit> Get([FromQuery]string user_id = "")
         {
-            var users = new User();
+            var userVisits = new UserVisit();
 
-            return users.ReadUsers(userName);
+            return userVisits.ReadUserVisit(user_id);
             
         }
-
 
         // GET api/values/5
         [HttpGet("{id}")]

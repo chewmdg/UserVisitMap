@@ -11,5 +11,6 @@ namespace UserVisitMap.Utilities
         public const string CITY = "City";
         public const string REGION = "Region";
         public const string USER = "User";
+        public const string USERVISIT = "UserVisit";
     }
 }

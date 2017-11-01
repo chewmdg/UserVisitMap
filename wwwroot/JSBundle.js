@@ -23382,6 +23382,7 @@ var Main = function (_React$Component) {
         _this.state = {
             cities: [],
             regions: [],
+            users: [],
             selectedRegion: ""
         };
         return _this;
@@ -23404,14 +23405,27 @@ var Main = function (_React$Component) {
                     regions: data
                 });
             });
+
+            _jquery2.default.getJSON('../api/User', function (data) {
+                data.unshift({ "_id": "0000000" });
+                _this2.setState({
+                    users: data
+                });
+            });
         }
     }, {
         key: 'handleRegionChange',
         value: function handleRegionChange(e) {
-
             this.setState({
                 selectedRegion: e.target.value
             }, this.updateCities(e.target.value));
+        }
+    }, {
+        key: 'handleUserChange',
+        value: function handleUserChange(e) {
+            this.setState({
+                selectedUser: e.target.value
+            });
         }
     }, {
         key: 'updateCities',
@@ -23432,6 +23446,28 @@ var Main = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'label',
+                        null,
+                        'User'
+                    ),
+                    _react2.default.createElement(
+                        'select',
+                        { onChange: function onChange(e) {
+                                _this4.handleUserChange(e);
+                            } },
+                        this.state.users.map(function (x) {
+                            return _react2.default.createElement(
+                                'option',
+                                { key: x._id, value: x._id },
+                                x._id
+                            );
+                        })
+                    )
+                ),
                 _react2.default.createElement(
                     'div',
                     null,
@@ -34545,7 +34581,7 @@ var RegionTable = exports.RegionTable = function (_React$Component) {
                     id: 'regionTable',
                     rowHeight: 50,
                     rowsCount: this.props.cities == null || this.props.cities == undefined ? 0 : this.props.cities.length,
-                    width: 600,
+                    width: 900,
                     height: 400,
                     headerHeight: 75
                 },
@@ -34553,6 +34589,12 @@ var RegionTable = exports.RegionTable = function (_React$Component) {
                     columnKey: 'name',
                     width: 200,
                     header: _react2.default.createElement(HEADERCELL, { name: 'City' }),
+                    cell: _react2.default.createElement(TEXTCELL, { data: this.props.cities })
+                }),
+                _react2.default.createElement(_fixedDataTable.Column, {
+                    columnKey: 'region',
+                    width: 200,
+                    header: _react2.default.createElement(HEADERCELL, { name: 'Region' }),
                     cell: _react2.default.createElement(TEXTCELL, { data: this.props.cities })
                 }),
                 _react2.default.createElement(_fixedDataTable.Column, {
@@ -34566,12 +34608,49 @@ var RegionTable = exports.RegionTable = function (_React$Component) {
                     width: 200,
                     header: _react2.default.createElement(HEADERCELL, { name: 'Longitude' }),
                     cell: _react2.default.createElement(TEXTCELL, { data: this.props.cities })
+                }),
+                _react2.default.createElement(_fixedDataTable.Column, {
+                    columnKey: 'visited',
+                    width: 100,
+                    header: _react2.default.createElement(HEADERCELL, { name: 'Visited' }),
+                    cell: _react2.default.createElement(CheckBoxCell, null)
                 })
             );
         }
     }]);
 
     return RegionTable;
+}(_react2.default.Component);
+
+var CheckBoxCell = function (_React$Component2) {
+    _inherits(CheckBoxCell, _React$Component2);
+
+    function CheckBoxCell() {
+        _classCallCheck(this, CheckBoxCell);
+
+        return _possibleConstructorReturn(this, (CheckBoxCell.__proto__ || Object.getPrototypeOf(CheckBoxCell)).apply(this, arguments));
+    }
+
+    _createClass(CheckBoxCell, [{
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            return _react2.default.createElement(
+                _fixedDataTable.Cell,
+                null,
+                _react2.default.createElement(
+                    'label',
+                    { className: 'form-check-label' },
+                    _react2.default.createElement('input', { onChange: function onChange(e) {
+                            return _this3.handleCheckboxChange;
+                        }, type: 'checkbox', className: 'form-check-input' })
+                )
+            );
+        }
+    }]);
+
+    return CheckBoxCell;
 }(_react2.default.Component);
 
 var HEADERCELL = function HEADERCELL(props) {

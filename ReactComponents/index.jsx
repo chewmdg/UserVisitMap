@@ -10,6 +10,7 @@ class Main extends React.Component {
         this.state = {
             cities: [],
             regions: [],
+            users: [],
             selectedRegion: "",
         };
     }
@@ -24,30 +25,44 @@ class Main extends React.Component {
         })
 
         $.getJSON('../api/Region', data => {
-            data.unshift({"name":"All Regions", "_id": "0000000"})
+            data.unshift({ "name": "All Regions", "_id": "0000000" })
             this.setState(
                 {
                     regions: data,
                 }
             )
         })
+
+        $.getJSON('../api/User', data => {
+            data.unshift({"_id": "0000000" })
+            this.setState(
+                {
+                    users: data,
+                }
+            )
+        })
     }
 
     handleRegionChange(e) {
-       
         this.setState({
-             selectedRegion: e.target.value
-            },
+            selectedRegion: e.target.value
+        },
             this.updateCities(e.target.value)
         )
-            
+    }
+
+    handleUserChange(e) {
+        this.setState({
+            selectedUser: e.target.value
+        }
+        )
     }
 
     updateCities(region) {
         $.getJSON('../api/City?regionName=' + region, data => {
             this.setState({
-                    cities: data
-                })
+                cities: data
+            })
         })
     }
 
@@ -60,6 +75,12 @@ class Main extends React.Component {
                         {this.state.cities.map((x) => { return (<option key={x.name + x.latitude} value={x.name}>{x.name}</option>) })}
                     </select>
                 </div> */}
+                <div>
+                    <label>User</label>
+                    <select onChange={(e) => { this.handleUserChange(e) }}>
+                        {this.state.users.map((x) => { return (<option key={x._id} value={x._id}>{x._id}</option>) })}
+                    </select>
+                </div>
                 <div>
                     <label>Region</label>
                     <select onChange={(e) => { this.handleRegionChange(e) }}>

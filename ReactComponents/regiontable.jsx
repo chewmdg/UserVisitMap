@@ -13,7 +13,7 @@ export class RegionTable extends React.Component {
                 id='regionTable'
                 rowHeight={50}
                 rowsCount={(this.props.cities == null || this.props.cities == undefined)?0 : this.props.cities.length}
-                width={600}
+                width={900}
                 height={400}
                 headerHeight={75}
             >
@@ -21,6 +21,12 @@ export class RegionTable extends React.Component {
                     columnKey="name"
                     width={200}
                     header={<HEADERCELL name="City" />}
+                    cell={<TEXTCELL data={this.props.cities}/>}
+                />
+                <Column
+                    columnKey="region"
+                    width={200}
+                    header={<HEADERCELL name="Region" />}
                     cell={<TEXTCELL data={this.props.cities}/>}
                 />
                 <Column
@@ -35,9 +41,23 @@ export class RegionTable extends React.Component {
                     header={<HEADERCELL name="Longitude" />}
                     cell={<TEXTCELL data={this.props.cities}/>}
                 />
+                <Column
+                    columnKey="visited"
+                    width={100}
+                    header={<HEADERCELL name="Visited" />}
+                    cell={<CheckBoxCell/>}
+                />
             </Table>
         )
     }
+}
+
+class CheckBoxCell extends React.Component {
+    render(){
+    return(
+        <Cell><label className="form-check-label"><input onChange={(e)=>this.handleCheckboxChange} type="checkbox" className="form-check-input"></input></label></Cell>
+    )
+}
 }
 
 const HEADERCELL = (props) => <Cell>{props.name}</Cell>
