@@ -21,13 +21,13 @@ namespace UserVisitMap.Models
         public DateTime DateTimeAdded { get; set; }
         public DateTime LastUpdated { get; set; }
 
-        public List<City> ReadCities(string name = "")
+        public List<City> ReadCities(string regionName = "")
         {
 
                 var regions = new List<Region>();
                 var cities = new List<City>();
 
-                regions = DBContext.mongoConnect<Region>(Constants.REGION).Find(x => x.Name == name || name=="").ToList();
+                regions = DBContext.mongoConnect<Region>(Constants.REGION).Find(x => x.Name == regionName || regionName=="").ToList();
 
                 foreach (var region in regions)
                 {

@@ -12849,6 +12849,8 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "Microsoft.AspNetCore.All >= 2.0.0",
+      "Microsoft.AspNetCore.Authentication.Cookies >= 2.0.0",
+      "Microsoft.AspNetCore.Authorization >= 2.0.0",
       "Microsoft.AspNetCore.StaticFiles >= 2.0.0",
       "Microsoft.NETCore.App >= 2.0.0",
       "MongoDB.Bson >= 2.4.4",
@@ -12900,6 +12902,14 @@
             "autoReferenced": true
           },
           "Microsoft.AspNetCore.All": {
+            "target": "Package",
+            "version": "2.0.0"
+          },
+          "Microsoft.AspNetCore.Authentication.Cookies": {
+            "target": "Package",
+            "version": "2.0.0"
+          },
+          "Microsoft.AspNetCore.Authorization": {
             "target": "Package",
             "version": "2.0.0"
           },

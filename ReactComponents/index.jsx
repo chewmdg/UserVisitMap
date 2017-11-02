@@ -11,11 +11,33 @@ class Main extends React.Component {
             cities: [],
             regions: [],
             users: [],
+            vmCities: [],
+            userVisits: [],
             selectedRegion: "",
+            isAuthenticated: false,
         };
     }
 
+    componentWillMount() {
+        let isAuthenticated
+        $.getJSON('../api/Account/IsAuthenticated', data => {
+            isAuthenticated = data
+            console.log(data)
+            if (isAuthenticated == false) {
+                window.location.href = './auth/login.html';
+            }else{
+                this.setState(
+                    {
+                        isAuthenticated: true,
+                    }
+                )
+            }
+        })
+    }
+
+
     componentDidMount() {
+
         $.getJSON('../api/City', data => {
             this.setState(
                 {
@@ -34,13 +56,24 @@ class Main extends React.Component {
         })
 
         $.getJSON('../api/User', data => {
-            data.unshift({"_id": "0000000" })
+            data.unshift({ "_id": "0000000" })
             this.setState(
                 {
                     users: data,
                 }
             )
         })
+
+        $.getJSON('../api/UserVisit', data => {
+            this.setState(
+                {
+                    userVisits: data,
+                }
+            )
+            console.log(this.state.userVisits)
+        })
+
+
     }
 
     handleRegionChange(e) {
@@ -67,31 +100,35 @@ class Main extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                {/* <div>
+        if (this.state.isAuthenticated) {
+            return (
+                <div>
+                    {/* <div>
                     <label className="label">City</label>
                     <select>
                         {this.state.cities.map((x) => { return (<option key={x.name + x.latitude} value={x.name}>{x.name}</option>) })}
                     </select>
                 </div> */}
-                <div>
-                    <label>User</label>
-                    <select onChange={(e) => { this.handleUserChange(e) }}>
-                        {this.state.users.map((x) => { return (<option key={x._id} value={x._id}>{x._id}</option>) })}
-                    </select>
+                    <div>
+                        <label>User</label>
+                        <select onChange={(e) => { this.handleUserChange(e) }}>
+                            {this.state.users.map((x) => { return (<option key={x._id} value={x._id}>{x._id}</option>) })}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Region</label>
+                        <select onChange={(e) => { this.handleRegionChange(e) }}>
+                            {this.state.regions.map((x) => { return (<option key={x._id} value={x.name}>{x.name}</option>) })}
+                        </select>
+                    </div>
+                    <div>
+                        <RegionTable cities={this.state.cities}  visited={this.state.userVisits}/>
+                    </div>
                 </div>
-                <div>
-                    <label>Region</label>
-                    <select onChange={(e) => { this.handleRegionChange(e) }}>
-                        {this.state.regions.map((x) => { return (<option key={x._id} value={x.name}>{x.name}</option>) })}
-                    </select>
-                </div>
-                <div>
-                    <RegionTable cities={this.state.cities} />
-                </div>
-            </div>
-        )
+            )
+        } else {
+            return null
+        }
     }
 }
 ReactDom.render(

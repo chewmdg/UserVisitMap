@@ -7,11 +7,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
     <PackageReference Include="MongoDB.Bson" Version="2.4.4" />
     <PackageReference Include="MongoDB.Driver" Version="2.4.4" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ReactComponents\**" />
   </ItemGroup>
 </Project>

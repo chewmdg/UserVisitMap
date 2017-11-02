@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using UserVisitMap.Models;
@@ -14,8 +15,10 @@ namespace UserVisitMap.Controllers
         public IEnumerable<UserVisit> Get([FromQuery]string user_id = "")
         {
             var userVisits = new UserVisit();
+            
+            ClaimsPrincipal claimPrincipal = HttpContext.User;
 
-            return userVisits.ReadUserVisit(user_id);
+            return userVisits.ReadUserVisit(claimPrincipal);
             
         }
 

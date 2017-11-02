@@ -23383,34 +23383,62 @@ var Main = function (_React$Component) {
             cities: [],
             regions: [],
             users: [],
-            selectedRegion: ""
+            vmCities: [],
+            userVisits: [],
+            selectedRegion: "",
+            isAuthenticated: false
         };
         return _this;
     }
 
     _createClass(Main, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
+        key: 'componentWillMount',
+        value: function componentWillMount() {
             var _this2 = this;
 
+            var isAuthenticated = void 0;
+            _jquery2.default.getJSON('../api/Account/IsAuthenticated', function (data) {
+                isAuthenticated = data;
+                console.log(data);
+                if (isAuthenticated == false) {
+                    window.location.href = './auth/login.html';
+                } else {
+                    _this2.setState({
+                        isAuthenticated: true
+                    });
+                }
+            });
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this3 = this;
+
             _jquery2.default.getJSON('../api/City', function (data) {
-                _this2.setState({
+                _this3.setState({
                     cities: data
                 });
             });
 
             _jquery2.default.getJSON('../api/Region', function (data) {
                 data.unshift({ "name": "All Regions", "_id": "0000000" });
-                _this2.setState({
+                _this3.setState({
                     regions: data
                 });
             });
 
             _jquery2.default.getJSON('../api/User', function (data) {
                 data.unshift({ "_id": "0000000" });
-                _this2.setState({
+                _this3.setState({
                     users: data
                 });
+            });
+
+            _jquery2.default.getJSON('../api/UserVisit', function (data) {
+                _this3.setState({
+                    userVisits: data
+                });
+                console.log(_this3.state.userVisits);
             });
         }
     }, {
@@ -23430,10 +23458,10 @@ var Main = function (_React$Component) {
     }, {
         key: 'updateCities',
         value: function updateCities(region) {
-            var _this3 = this;
+            var _this4 = this;
 
             _jquery2.default.getJSON('../api/City?regionName=' + region, function (data) {
-                _this3.setState({
+                _this4.setState({
                     cities: data
                 });
             });
@@ -23441,61 +23469,65 @@ var Main = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
-            return _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(
+            if (this.state.isAuthenticated) {
+                return _react2.default.createElement(
                     'div',
                     null,
                     _react2.default.createElement(
-                        'label',
+                        'div',
                         null,
-                        'User'
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'User'
+                        ),
+                        _react2.default.createElement(
+                            'select',
+                            { onChange: function onChange(e) {
+                                    _this5.handleUserChange(e);
+                                } },
+                            this.state.users.map(function (x) {
+                                return _react2.default.createElement(
+                                    'option',
+                                    { key: x._id, value: x._id },
+                                    x._id
+                                );
+                            })
+                        )
                     ),
                     _react2.default.createElement(
-                        'select',
-                        { onChange: function onChange(e) {
-                                _this4.handleUserChange(e);
-                            } },
-                        this.state.users.map(function (x) {
-                            return _react2.default.createElement(
-                                'option',
-                                { key: x._id, value: x._id },
-                                x._id
-                            );
-                        })
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(
-                        'label',
+                        'div',
                         null,
-                        'Region'
+                        _react2.default.createElement(
+                            'label',
+                            null,
+                            'Region'
+                        ),
+                        _react2.default.createElement(
+                            'select',
+                            { onChange: function onChange(e) {
+                                    _this5.handleRegionChange(e);
+                                } },
+                            this.state.regions.map(function (x) {
+                                return _react2.default.createElement(
+                                    'option',
+                                    { key: x._id, value: x.name },
+                                    x.name
+                                );
+                            })
+                        )
                     ),
                     _react2.default.createElement(
-                        'select',
-                        { onChange: function onChange(e) {
-                                _this4.handleRegionChange(e);
-                            } },
-                        this.state.regions.map(function (x) {
-                            return _react2.default.createElement(
-                                'option',
-                                { key: x._id, value: x.name },
-                                x.name
-                            );
-                        })
+                        'div',
+                        null,
+                        _react2.default.createElement(_regiontable.RegionTable, { cities: this.state.cities, visited: this.state.userVisits })
                     )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    null,
-                    _react2.default.createElement(_regiontable.RegionTable, { cities: this.state.cities })
-                )
-            );
+                );
+            } else {
+                return null;
+            }
         }
     }]);
 
@@ -34613,7 +34645,7 @@ var RegionTable = exports.RegionTable = function (_React$Component) {
                     columnKey: 'visited',
                     width: 100,
                     header: _react2.default.createElement(HEADERCELL, { name: 'Visited' }),
-                    cell: _react2.default.createElement(CheckBoxCell, null)
+                    cell: _react2.default.createElement(CheckBoxCell, { visited: this.props.visited })
                 })
             );
         }
@@ -34632,10 +34664,23 @@ var CheckBoxCell = function (_React$Component2) {
     }
 
     _createClass(CheckBoxCell, [{
-        key: 'render',
-        value: function render() {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
             var _this3 = this;
 
+            this.filteredCities = {};
+            if (this.props.data) {
+                filteredCities = this.props.visited.filter(function (x) {
+                    return x.latitude == _this3.props.data[_this3.props.rowIndex].latitude && x.longitude == _this3.props.data[_this3.props.rowIndex].longitude;
+                });
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this4 = this;
+
+            console.log(this.filteredCities);
             return _react2.default.createElement(
                 _fixedDataTable.Cell,
                 null,
@@ -34643,8 +34688,8 @@ var CheckBoxCell = function (_React$Component2) {
                     'label',
                     { className: 'form-check-label' },
                     _react2.default.createElement('input', { onChange: function onChange(e) {
-                            return _this3.handleCheckboxChange;
-                        }, type: 'checkbox', className: 'form-check-input' })
+                            return _this4.handleCheckboxChange;
+                        }, checked: this.filteredCities, type: 'checkbox', className: 'form-check-input' })
                 )
             );
         }

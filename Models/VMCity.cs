@@ -27,7 +27,7 @@ namespace UserVisitMap.Models
 
                 var regions = new List<Region>();
                 var cities = new List<City>();
-                var cityRegioins = new List<VMCity>();
+                var cityRegions = new List<VMCity>();
 
                 regions = DBContext.mongoConnect<Region>(Constants.REGION).Find(x => x.Name == regionName || regionName=="").ToList();
 
@@ -49,14 +49,14 @@ namespace UserVisitMap.Models
                                 DateTimeAdded = city.DateTimeAdded,
                                 LastUpdated = city.LastUpdated
                             };
-                            
-                            cityRegioins.Add(tempCity);
+
+                            cityRegions.Add(tempCity);
                         }
 
                     }
                 }
 
-            return cityRegioins;
+            return cityRegions;
         }
     }
 }

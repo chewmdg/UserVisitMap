@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    <title>Login Page</title>
+</head>
+
+<body>
+    <form method="post" action="../api/account">
+        <label>Username</label>
+        <input type="text" name="Username" id="Username" onKeyUp="onValueChange()"></input>
+        <br/>
+        <label>Password</label>
+        <input type="text" name="Password" id="Password" onKeyUp="onValueChange()"></input>
+        <br/>
+        <button id="submitBtn" class="btn btn-success" type="submit">Login</button>
+    </form>
+</body>
+<script
+src="https://code.jquery.com/jquery-3.2.1.min.js"
+integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function(){
+        $("#submitBtn").prop("disabled" ,true);
+    })
+    function onValueChange(){
+        if($('#Username').val() && $('#Password').val()){
+            $("#submitBtn").prop("disabled", false);
+        }else{
+            $("#submitBtn").prop("disabled", true);
+        }
+    }
+    
+</script>
+</html>

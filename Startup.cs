@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace UserVisitMap
 {
@@ -23,6 +25,10 @@ namespace UserVisitMap
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                        .AddCookie(o => o.LoginPath = new PathString("/Auth/Login"));
+
             services.AddMvc();
         }
 
@@ -34,10 +40,12 @@ namespace UserVisitMap
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
             app.UseMvc();
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
         }
     }
+
 }

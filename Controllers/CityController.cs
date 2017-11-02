@@ -2,23 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserVisitMap.Models;
 
 namespace UserVisitMap.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class CityController : Controller
     {
         // GET api/values
         [HttpGet]
         //[Route("")]
         //[Route("{regionName}")]
-        public IEnumerable<City> Get([FromQuery]string regionName = "")
+        public IEnumerable<VMCity> Get([FromQuery]string regionName = "")
         {
-            var city = new City();
+            var login = HttpContext.User;
+            var city = new VMCity();
 
-            return city.ReadCities(regionName);
+            return city.ReadCitiesRegion(regionName);
             
         }
 
