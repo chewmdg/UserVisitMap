@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserVisitMap.Models;
+using UserVisitMap.Utilities;
 
 namespace UserVisitMap.Controllers
 {
@@ -33,12 +36,11 @@ namespace UserVisitMap.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]UserVisit userVisit)
+        public HttpResponseMessage Post([FromBody]UserVisit userVisit)
         {
-            userVisit.DateTimeAdded = DateTime.Now;
-            userVisit.LastUpdated = DateTime.Now;
-            userVisit.DateAdded = DateTime.Now;
-            UserVisit.CreateUserVisit(userVisit);
+            ClaimsPrincipal claimsPrincipal = HttpContext.User;    
+            userVisit.CreateUserVisit(claimsPrincipal);
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         // PUT api/values/5

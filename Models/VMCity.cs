@@ -14,7 +14,7 @@ namespace UserVisitMap.Models
     public class VMCity
     {
         public string Name { get; set; }
-        public string Region {get; set; }
+        public string Region { get; set; }
         public string Status { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
@@ -25,36 +25,42 @@ namespace UserVisitMap.Models
         public List<VMCity> ReadCitiesRegion(string regionName = "")
         {
 
-                var regions = new List<Region>();
-                var cities = new List<City>();
-                var cityRegions = new List<VMCity>();
+            var regions = new List<Region>();
+            var cities = new List<City>();
+            var cityRegions = new List<VMCity>();
 
-                regions = DBContext.mongoConnect<Region>(Constants.REGION).Find(x => x.Name == regionName || regionName=="").ToList();
+            if (regionName == "All Regions")
+            {
+                regionName = "";
+            }
 
-                foreach (var region in regions)
+            regions = DBContext.mongoConnect<Region>(Constants.REGION).Find(x => x.Name == regionName || regionName == "").ToList();
+
+            foreach (var region in regions)
+            {
+                if (region.Cities.Count > 0)
                 {
-                    if (region.Cities.Count > 0)
+                    cities.AddRange(region.Cities.ToList());
+
+                    foreach (City city in cities)
                     {
-                        cities.AddRange(region.Cities.ToList());
-
-                        foreach (City city in cities)
+                        VMCity tempCity = new VMCity
                         {
-                            VMCity tempCity = new VMCity{
-                                Name = city.Name,
-                                Region = region.Name,
-                                Status = city.Status,
-                                Latitude = city.Latitude,
-                                Longitude = city.Longitude,
-                                DateAdded = city.DateAdded,
-                                DateTimeAdded = city.DateTimeAdded,
-                                LastUpdated = city.LastUpdated
-                            };
+                            Name = city.Name,
+                            Region = region.Name,
+                            Status = city.Status,
+                            Latitude = city.Latitude,
+                            Longitude = city.Longitude,
+                            DateAdded = city.DateAdded,
+                            DateTimeAdded = city.DateTimeAdded,
+                            LastUpdated = city.LastUpdated
+                        };
 
-                            cityRegions.Add(tempCity);
-                        }
-
+                        cityRegions.Add(tempCity);
                     }
+
                 }
+            }
 
             return cityRegions;
         }

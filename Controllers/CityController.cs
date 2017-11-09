@@ -20,9 +20,8 @@ namespace UserVisitMap.Controllers
         {
             var login = HttpContext.User;
             var city = new VMCity();
-
-            return city.ReadCitiesRegion(regionName);
             
+            return city.ReadCitiesRegion(regionName);
         }
 
         // GET api/values/5

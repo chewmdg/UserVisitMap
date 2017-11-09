@@ -45,7 +45,8 @@ export class RegionTable extends React.Component {
                     columnKey="visited"
                     width={100}
                     header={<HEADERCELL name="Visited" />}
-                    cell={<CheckBoxCell visited={this.props.visited} data={this.props.cities} />}
+                    cell={<CheckBoxCell visited={this.props.visited} data={this.props.cities} 
+                    handleCheckboxChange={()=>this.props.handleChange()}/>}
                 />
             </Table>
         )
@@ -73,7 +74,7 @@ class CheckBoxCell extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.data != nextProps.data) {
+        if (this.props != nextProps) {
             this.filteredCities = {}
             if (nextProps.data) {
                 this.filteredCities = nextProps.visited.filter((x) => {
@@ -89,52 +90,31 @@ class CheckBoxCell extends React.Component {
 
 
     handleCheckboxChange() {
-        console.log("FilteredCitiesinHandleCheck")
-        console.log(this.state.filteredCities);
-
         if (this.state.filteredCities.length == 0) {
             this.visitToUpdate = {
                 _id:"",
                 user_id:"",
-                City:this.props.data[this.props.rowIndex].City,
-                Region:this.props.data[this.props.rowIndex].Region,
+                City:this.props.data[this.props.rowIndex].name,
+                Region:this.props.data[this.props.rowIndex].region,
                 Latitude:this.props.data[this.props.rowIndex].latitude,
                 Longitude:this.props.data[this.props.rowIndex].longitude,
             }
-
+            console.log(this.visitToUpdate)
             $.ajax({
                 type: "POST",
                 url: '../api/UserVisit',
                 data: JSON.stringify(this.visitToUpdate),
                 dataType: "JSON",
-                contentType: "application/JSON"
-                success: () => 
+                contentType: "application/JSON, charset=utf-8",
+                success: () => {this.props.handleCheckboxChange()}
             })
         } else {
             $.ajax({
                 type: "DELETE",
                 url: '../api/UserVisit/' + this.state.filteredCities[0]._id,
+                success: () => {this.props.handleCheckboxChange()}
             })
         }
-
-        // if(e.target.checked){
-        //     $.ajax({
-        //         type:"POST",
-        //         url:'../api/UserVisit',
-        //         data:JSON.stringify(userVisits),
-        //         dataType: "JSON",
-        //         contentType: "application/JSON"
-        //     })
-        // }else{
-        //     $.ajax({
-        //         type:"DELETE",
-        //         url:'../api/UserVisit',
-        //         data:JSON.stringify(),
-        //         dataType: "JSON",
-        //         contentType: "application/JSON"
-        //     })
-        // }
-
     }
 
 

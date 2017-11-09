@@ -26,6 +26,13 @@ namespace UserVisitMap.Models
         public DateTime DateTimeAdded {get; set;}
         public DateTime LastUpdated {get; set;}
 
+        public UserVisit()
+        {
+            DateTimeAdded = DateTime.Now;
+            LastUpdated = DateTime.Now;
+            DateAdded = DateTime.Now;
+        }
+
         public List<UserVisit> ReadUserVisit(ClaimsPrincipal claimsPrincipal)
         {
             var userVisits = new List<UserVisit>();
@@ -36,9 +43,11 @@ namespace UserVisitMap.Models
             return userVisits;
         }
 
-        public static void CreateUserVisit(UserVisit userVisit)
+        public void CreateUserVisit(ClaimsPrincipal principal)
         {
-            DBContext.mongoConnect<UserVisit>(Constants.USERVISIT).InsertOne(userVisit);
+            user_id = PrincipalReader.ReadPrincipal(principal, "_id").Value.ToString();
+            
+            DBContext.mongoConnect<UserVisit>(Constants.USERVISIT).InsertOne(this);
         }
 
         public static void DeleteUserVisit(string id)

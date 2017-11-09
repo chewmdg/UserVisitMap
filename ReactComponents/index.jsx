@@ -22,7 +22,6 @@ class Main extends React.Component {
         let isAuthenticated
         $.getJSON('../api/Account/IsAuthenticated', data => {
             isAuthenticated = data
-            console.log(data)
             if (isAuthenticated == false) {
                 window.location.href = './auth/login.html';
             }else{
@@ -64,20 +63,19 @@ class Main extends React.Component {
             )
         })
 
-        handleGetUserVisits();
+        this.handleGetUserVisits();
 
     }
 
     handleGetUserVisits(){
+        console.log("handleGetUserVisits Here")
         $.getJSON('../api/UserVisit', data => {
             this.setState(
                 {
                     userVisits: data,
                 }
             )
-            return
         })
-        return
     }
 
     handleRegionChange(e) {
@@ -118,12 +116,12 @@ class Main extends React.Component {
                         {this.state.cities.map((x) => { return (<option key={x.name + x.latitude} value={x.name}>{x.name}</option>) })}
                     </select>
                 </div> */}
-                    <div>
+                    {/* <div>
                         <label>User</label>
                         <select onChange={(e) => { this.handleUserChange(e) }}>
                             {this.state.users.map((x) => { return (<option key={x._id} value={x._id}>{x._id}</option>) })}
                         </select>
-                    </div>
+                    </div> */}
                     <div>
                         <label>Region</label>
                         <select onChange={(e) => { this.handleRegionChange(e) }}>
@@ -131,7 +129,7 @@ class Main extends React.Component {
                         </select>
                     </div>
                     <div>
-                        <RegionTable cities={this.state.cities}  visited={this.state.userVisits}/>
+                        <RegionTable cities={this.state.cities}  visited={this.state.userVisits} handleChange={()=>this.handleGetUserVisits()}/>
                     </div>
                 </div>
             )

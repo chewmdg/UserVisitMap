@@ -24,18 +24,18 @@ namespace UserVisitMap.Models
         public List<City> ReadCities(string regionName = "")
         {
 
-                var regions = new List<Region>();
-                var cities = new List<City>();
+            var regions = new List<Region>();
+            var cities = new List<City>();
 
-                regions = DBContext.mongoConnect<Region>(Constants.REGION).Find(x => x.Name == regionName || regionName=="").ToList();
+            regions = DBContext.mongoConnect<Region>(Constants.REGION).Find(x => x.Name == regionName || regionName == "").ToList();
 
-                foreach (var region in regions)
+            foreach (var region in regions)
+            {
+                if (region.Cities.Count > 0)
                 {
-                    if (region.Cities.Count > 0)
-                    {
-                        cities.AddRange(region.Cities);
-                    }
+                    cities.AddRange(region.Cities);
                 }
+            }
 
             return cities;
         }
