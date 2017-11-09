@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import $ from 'jquery';
-import { RegionTable } from './regiontable.jsx'
+import { RegionTable } from './regiontable.jsx';
+import MapContainer from './mapcontainer.jsx';
 
 class Main extends React.Component {
     constructor() {
@@ -20,11 +21,12 @@ class Main extends React.Component {
 
     componentWillMount() {
         let isAuthenticated
+
         $.getJSON('../api/Account/IsAuthenticated', data => {
             isAuthenticated = data
             if (isAuthenticated == false) {
                 window.location.href = './auth/login.html';
-            }else{
+            } else {
                 this.setState(
                     {
                         isAuthenticated: true,
@@ -67,8 +69,7 @@ class Main extends React.Component {
 
     }
 
-    handleGetUserVisits(){
-        console.log("handleGetUserVisits Here")
+    handleGetUserVisits() {
         $.getJSON('../api/UserVisit', data => {
             this.setState(
                 {
@@ -89,10 +90,10 @@ class Main extends React.Component {
     handleUserChange(e) {
         this.setState({
             selectedUser: e.target.value
-        }, ()=>$.ajax({
-            type:"POST",
-            url:'../api/UserVisit',
-            data:JSON.stringify({value:"Test"}),
+        }, () => $.ajax({
+            type: "POST",
+            url: '../api/UserVisit',
+            data: JSON.stringify({ value: "Test" }),
             dataType: "JSON",
             contentType: "application/JSON"
         }))
@@ -129,7 +130,10 @@ class Main extends React.Component {
                         </select>
                     </div>
                     <div>
-                        <RegionTable cities={this.state.cities}  visited={this.state.userVisits} handleChange={()=>this.handleGetUserVisits()}/>
+                        <RegionTable cities={this.state.cities} visited={this.state.userVisits} handleChange={() => this.handleGetUserVisits()} />
+                    </div>
+                    <div>
+                        <MapContainer visited={this.state.userVisits} />
                     </div>
                 </div>
             )
