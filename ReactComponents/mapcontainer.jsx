@@ -26,9 +26,12 @@ export class MapContainer extends React.Component {
 
     render() {
         return (
-            <Map google={this.props.google} style={{width:'47%', height:'47%', position: 'relative'}} zoom={4} initialCenter={{
-                lat: 39.8283,
-                lng: -98.5795
+            <Map google={this.props.google} style={{width:'47%', height:'47%', position: 'relative'}} center={{
+                lat: this.props.mapCenter.Latitude,
+                lng: this.props.mapCenter.Longitude
+            }} zoom={this.props.mapZoom} initialCenter={{
+                lat: this.props.mapCenter.Latitude,
+                lng: this.props.mapCenter.Longitude
             }}>
                 {this.getLocations()}
                 {/* <InfoWindow onClose={this.onInfoWindowClose}>)

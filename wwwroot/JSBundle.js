@@ -23819,6 +23819,10 @@ var _mapcontainer = __webpack_require__(261);
 
 var _mapcontainer2 = _interopRequireDefault(_mapcontainer);
 
+var _regionCenter = __webpack_require__(262);
+
+var _regionCenter2 = _interopRequireDefault(_regionCenter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -23826,6 +23830,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DEFAULTLATITUDE = 39.8283;
+var DEFAULTLONGITUDE = -98.5795;
+var DEFAULTZOOM = 4;
 
 var Main = function (_React$Component) {
     _inherits(Main, _React$Component);
@@ -23842,7 +23850,12 @@ var Main = function (_React$Component) {
             vmCities: [],
             userVisits: [],
             selectedRegion: "",
-            isAuthenticated: false
+            isAuthenticated: false,
+            mapCenter: {
+                Latitude: DEFAULTLATITUDE,
+                Longitude: DEFAULTLONGITUDE
+            },
+            mapZoom: DEFAULTZOOM
         };
         return _this;
     }
@@ -23906,8 +23919,25 @@ var Main = function (_React$Component) {
     }, {
         key: 'handleRegionChange',
         value: function handleRegionChange(e) {
+            var center = new _regionCenter2.default();
+            var selectedCenter = center.region.filter(function (x) {
+                return x.RegionName == e.target.value;
+            })[0];
+            if (selectedCenter) {
+                this.Latitude = selectedCenter.Latitude;
+                this.Longitude = selectedCenter.Longitude;
+                this.Zoom = selectedCenter.Zoom;
+            } else {
+                this.Latitude = DEFAULTLATITUDE;
+                this.Longitude = DEFAULTLONGITUDE;
+                this.Zoom = DEFAULTZOOM;
+            }
+            console.log("here");
+            console.log(e.target.value);
             this.setState({
-                selectedRegion: e.target.value
+                selectedRegion: e.target.value,
+                mapCenter: { Latitude: this.Latitude, Longitude: this.Longitude },
+                mapZoom: e.target.value == "All Regions" ? DEFAULTZOOM : this.Zoom
             }, this.updateCities(e.target.value));
         }
     }, {
@@ -23977,7 +24007,7 @@ var Main = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         null,
-                        _react2.default.createElement(_mapcontainer2.default, { visited: this.state.userVisits })
+                        _react2.default.createElement(_mapcontainer2.default, { visited: this.state.userVisits, mapCenter: this.state.mapCenter, mapZoom: this.state.mapZoom })
                     )
                 );
             } else {
@@ -43161,9 +43191,12 @@ var MapContainer = exports.MapContainer = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 _googleMapsReact.Map,
-                { google: this.props.google, style: { width: '47%', height: '47%', position: 'relative' }, zoom: 4, initialCenter: {
-                        lat: 39.8283,
-                        lng: -98.5795
+                { google: this.props.google, style: { width: '47%', height: '47%', position: 'relative' }, center: {
+                        lat: this.props.mapCenter.Latitude,
+                        lng: this.props.mapCenter.Longitude
+                    }, zoom: this.props.mapZoom, initialCenter: {
+                        lat: this.props.mapCenter.Latitude,
+                        lng: this.props.mapCenter.Longitude
                     } },
                 this.getLocations()
             );
@@ -43177,6 +43210,46 @@ exports.default = (0, _googleMapsReact.GoogleApiWrapper)({
     apiKey: "AIzaSyCOzCJ80zYlUN8By0xxZH6aSU_p_QbylwQ"
 
 })(MapContainer);
+
+/***/ }),
+/* 262 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var SMALLREGION = 7;
+var MEDIUMREGION = 6;
+var LARGEREGION = 5;
+
+var regionCenter = function regionCenter() {
+    _classCallCheck(this, regionCenter);
+
+    this.region = [{
+        RegionName: "Alabama",
+        Latitude: 32.806671,
+        Longitude: -86.791130,
+        Zoom: MEDIUMREGION
+    }, {
+        RegionName: "Alaska",
+        Latitude: 65.499211,
+        Longitude: -151.659889,
+        Zoom: 3
+    }, {
+        RegionName: "Arizona",
+        Latitude: 33.729759,
+        Longitude: -111.431221,
+        Zoom: MEDIUMREGION
+    }];
+};
+
+exports.default = regionCenter;
 
 /***/ })
 /******/ ]);

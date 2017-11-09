@@ -3,6 +3,11 @@ import ReactDom from 'react-dom';
 import $ from 'jquery';
 import { RegionTable } from './regiontable.jsx';
 import MapContainer from './mapcontainer.jsx';
+import RegionCenter from './regionCenter.js';
+
+const DEFAULTLATITUDE = 39.8283;
+const DEFAULTLONGITUDE = -98.5795;
+const DEFAULTZOOM = 4;
 
 class Main extends React.Component {
     constructor() {
@@ -16,6 +21,11 @@ class Main extends React.Component {
             userVisits: [],
             selectedRegion: "",
             isAuthenticated: false,
+            mapCenter:{
+                Latitude:DEFAULTLATITUDE,
+                Longitude:DEFAULTLONGITUDE
+            },
+            mapZoom:DEFAULTZOOM
         };
     }
 
@@ -80,8 +90,24 @@ class Main extends React.Component {
     }
 
     handleRegionChange(e) {
+        let center=new RegionCenter();
+        let selectedCenter= center.region.filter((x)=>{return(x.RegionName == e.target.value)})[0]
+        if(selectedCenter)
+        {
+        this.Latitude=selectedCenter.Latitude
+        this.Longitude=selectedCenter.Longitude
+        this.Zoom=selectedCenter.Zoom
+        }else{
+            this.Latitude= DEFAULTLATITUDE;
+            this.Longitude= DEFAULTLONGITUDE;
+            this.Zoom= DEFAULTZOOM;
+        }
+         console.log("here")
+        console.log(e.target.value)
         this.setState({
-            selectedRegion: e.target.value
+            selectedRegion: e.target.value,
+            mapCenter: {Latitude: this.Latitude, Longitude: this.Longitude},
+            mapZoom:(e.target.value == "All Regions")?DEFAULTZOOM:this.Zoom
         },
             this.updateCities(e.target.value)
         )
@@ -133,7 +159,7 @@ class Main extends React.Component {
                         <RegionTable cities={this.state.cities} visited={this.state.userVisits} handleChange={() => this.handleGetUserVisits()} />
                     </div>
                     <div>
-                        <MapContainer visited={this.state.userVisits} />
+                        <MapContainer visited={this.state.userVisits} mapCenter={this.state.mapCenter} mapZoom={this.state.mapZoom}/>
                     </div>
                 </div>
             )
