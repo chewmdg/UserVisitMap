@@ -35,5 +35,15 @@ namespace UserVisitMap.Models
             userVisits = DBContext.mongoConnect<UserVisit>(Constants.USERVISIT).Find(x => x.user_id == userId.Value).ToList();
             return userVisits;
         }
+
+        public static void CreateUserVisit(UserVisit userVisit)
+        {
+            DBContext.mongoConnect<UserVisit>(Constants.USERVISIT).InsertOne(userVisit);
+        }
+
+        public static void DeleteUserVisit(string id)
+        {
+            DBContext.mongoConnect<UserVisit>(Constants.USERVISIT).DeleteOne(x => x._id == id);
+        }
     }
 }

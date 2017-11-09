@@ -64,16 +64,20 @@ class Main extends React.Component {
             )
         })
 
+        handleGetUserVisits();
+
+    }
+
+    handleGetUserVisits(){
         $.getJSON('../api/UserVisit', data => {
             this.setState(
                 {
                     userVisits: data,
                 }
             )
-            console.log(this.state.userVisits)
+            return
         })
-
-
+        return
     }
 
     handleRegionChange(e) {
@@ -87,8 +91,13 @@ class Main extends React.Component {
     handleUserChange(e) {
         this.setState({
             selectedUser: e.target.value
-        }
-        )
+        }, ()=>$.ajax({
+            type:"POST",
+            url:'../api/UserVisit',
+            data:JSON.stringify({value:"Test"}),
+            dataType: "JSON",
+            contentType: "application/JSON"
+        }))
     }
 
     updateCities(region) {

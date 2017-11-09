@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserVisitMap.Models;
 
@@ -12,6 +13,7 @@ namespace UserVisitMap.Controllers
     public class UserVisitController : Controller
     {
         // GET api/values
+        [Authorize]
         public IEnumerable<UserVisit> Get([FromQuery]string user_id = "")
         {
             var userVisits = new UserVisit();
@@ -31,8 +33,12 @@ namespace UserVisitMap.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]UserVisit userVisit)
         {
+            userVisit.DateTimeAdded = DateTime.Now;
+            userVisit.LastUpdated = DateTime.Now;
+            userVisit.DateAdded = DateTime.Now;
+            UserVisit.CreateUserVisit(userVisit);
         }
 
         // PUT api/values/5
@@ -43,8 +49,9 @@ namespace UserVisitMap.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(string id)
         {
+            UserVisit.DeleteUserVisit(id);
         }
     }
 }

@@ -45,7 +45,7 @@ export class RegionTable extends React.Component {
                     columnKey="visited"
                     width={100}
                     header={<HEADERCELL name="Visited" />}
-                    cell={<CheckBoxCell visited={this.props.visited} />}
+                    cell={<CheckBoxCell visited={this.props.visited} data={this.props.cities} />}
                 />
             </Table>
         )
@@ -53,20 +53,94 @@ export class RegionTable extends React.Component {
 }
 
 class CheckBoxCell extends React.Component {
-    componentWillReceiveProps(nextProps) {
+    constructor() {
+        super();
+        this.state = {
+            filteredCities: []
+        }
+    }
+    componentDidMount() {
         this.filteredCities = {}
         if (this.props.data) {
-            filteredCities = this.props.visited.filter((x) => {
+            this.filteredCities = this.props.visited.filter((x) => {
                 return (x.latitude == this.props.data[this.props.rowIndex].latitude && x.longitude == this.props.data[this.props.rowIndex].longitude)
+            })
+            this.setState({
+                visited: this.filteredCities.length > 0,
+                filteredCities: this.filteredCities
             })
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.data != nextProps.data) {
+            this.filteredCities = {}
+            if (nextProps.data) {
+                this.filteredCities = nextProps.visited.filter((x) => {
+                    return (x.latitude == nextProps.data[nextProps.rowIndex].latitude && x.longitude == nextProps.data[nextProps.rowIndex].longitude)
+                })
+                this.setState({
+                    visited: this.filteredCities.length > 0,
+                    filteredCities: this.filteredCities
+                })
+            }
+        }
+    }
+
+
+    handleCheckboxChange() {
+        console.log("FilteredCitiesinHandleCheck")
+        console.log(this.state.filteredCities);
+
+        if (this.state.filteredCities.length == 0) {
+            this.visitToUpdate = {
+                _id:"",
+                user_id:"",
+                City:this.props.data[this.props.rowIndex].City,
+                Region:this.props.data[this.props.rowIndex].Region,
+                Latitude:this.props.data[this.props.rowIndex].latitude,
+                Longitude:this.props.data[this.props.rowIndex].longitude,
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '../api/UserVisit',
+                data: JSON.stringify(this.visitToUpdate),
+                dataType: "JSON",
+                contentType: "application/JSON"
+                success: () => 
+            })
+        } else {
+            $.ajax({
+                type: "DELETE",
+                url: '../api/UserVisit/' + this.state.filteredCities[0]._id,
+            })
+        }
+
+        // if(e.target.checked){
+        //     $.ajax({
+        //         type:"POST",
+        //         url:'../api/UserVisit',
+        //         data:JSON.stringify(userVisits),
+        //         dataType: "JSON",
+        //         contentType: "application/JSON"
+        //     })
+        // }else{
+        //     $.ajax({
+        //         type:"DELETE",
+        //         url:'../api/UserVisit',
+        //         data:JSON.stringify(),
+        //         dataType: "JSON",
+        //         contentType: "application/JSON"
+        //     })
+        // }
+
+    }
+
 
     render() {
-        console.log(this.filteredCities)
         return (
-            <Cell><label className="form-check-label"><input onChange={(e) => this.handleCheckboxChange} checked={this.filteredCities} type="checkbox" className="form-check-input"></input></label></Cell>
+            <Cell><label className="form-check-label"><input onChange={() => this.handleCheckboxChange()} checked={this.state.visited} type="checkbox" className="form-check-input"></input></label></Cell>
         )
     }
 }
