@@ -43161,7 +43161,7 @@ var MapContainer = exports.MapContainer = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 _googleMapsReact.Map,
-                { google: this.props.google, zoom: 3, initialCenter: {
+                { google: this.props.google, style: { width: '47%', height: '47%', position: 'relative' }, zoom: 4, initialCenter: {
                         lat: 39.8283,
                         lng: -98.5795
                     } },
