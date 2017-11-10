@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication;
 using System.Linq;
 using UserVisitMap.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Net.Http;
+using System.Net;
 
 namespace UserVisitMap.Controllers
 {
@@ -20,10 +22,10 @@ namespace UserVisitMap.Controllers
 
         [HttpGet]
         [Route("Logout")]
-        public async Task<IActionResult> Logout()
+        public async Task<HttpResponseMessage> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("/auth/login.html");
+            await HttpContext.SignOutAsync();
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         [HttpGet]

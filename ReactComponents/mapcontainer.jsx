@@ -36,10 +36,11 @@ export class MapContainer extends React.Component {
                 this.props.visited.map((x) => {
                     return (
                         <Marker key={x._id} name={x.city} position={{ lat: x.latitude, lng: x.longitude }} onClick={(props,marker, e)=>this.onMarkerClick(props, marker, e)} 
-                        icon={{
-                            //url: "/icon/flag.png",        //custom icon
-                            scaledSize: new google.maps.Size(40,40)
-                          }}/>
+                        // icon={{
+                        //     url: "/icon/flag.png",        //custom icon
+                        //     scaledSize: new google.maps.Size(40,40)
+                        //   }}
+                        />
                     )
                 }))
         }
