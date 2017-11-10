@@ -99,7 +99,7 @@ class CheckBoxCell extends React.Component {
                 Latitude:this.props.data[this.props.rowIndex].latitude,
                 Longitude:this.props.data[this.props.rowIndex].longitude,
             }
-            console.log(this.visitToUpdate)
+
             $.ajax({
                 type: "POST",
                 url: '../api/UserVisit',

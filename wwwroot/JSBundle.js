@@ -34859,7 +34859,7 @@ var CheckBoxCell = function (_React$Component2) {
                     Latitude: this.props.data[this.props.rowIndex].latitude,
                     Longitude: this.props.data[this.props.rowIndex].longitude
                 };
-                console.log(this.visitToUpdate);
+
                 _jquery2.default.ajax({
                     type: "POST",
                     url: '../api/UserVisit',
