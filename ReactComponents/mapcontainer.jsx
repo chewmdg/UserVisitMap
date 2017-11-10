@@ -1,24 +1,45 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 
 export class MapContainer extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
+            selectedPlace: {},
+            showingInfoWindow: false,
+            activeMarker: {},
             selectedPlace: {}
         }
     }
 
+    onMarkerClick(props, marker, e){
+        this.setState({
+          selectedPlace: props,
+          activeMarker: marker,
+          showingInfoWindow: true
+        });
+      }
+
+      onMapClicked(){
+        if (this.state.showingInfoWindow) {
+          this.setState({
+            showingInfoWindow: false,
+            activeMarker: null
+          })
+        }
+      }
+
     getLocations() {
-        console.log("getLocations")
-        console.log(this.props.visited)
         if (this.props.visited) {
-            console.log("getLocationsVisited=True")
             return (
                 this.props.visited.map((x) => {
                     return (
-                        <Marker key={x._id} name={x.name} position={{ lat: x.latitude, lng: x.longitude }} />
+                        <Marker key={x._id} name={x.city} position={{ lat: x.latitude, lng: x.longitude }} onClick={(props,marker, e)=>this.onMarkerClick(props, marker, e)} 
+                        icon={{
+                            //url: "/icon/flag.png",        //custom icon
+                            scaledSize: new google.maps.Size(40,40)
+                          }}/>
                     )
                 }))
         }
@@ -26,7 +47,7 @@ export class MapContainer extends React.Component {
 
     render() {
         return (
-            <Map google={this.props.google} style={{width:'47%', height:'47%', position: 'relative'}} center={{
+            <Map clickableIcons={false} onClick={()=>this.onMapClicked()} google={this.props.google} style={{ width: '47%', height: '47%', position: 'relative' }} center={{
                 lat: this.props.mapCenter.Latitude,
                 lng: this.props.mapCenter.Longitude
             }} zoom={this.props.mapZoom} initialCenter={{
@@ -34,11 +55,11 @@ export class MapContainer extends React.Component {
                 lng: this.props.mapCenter.Longitude
             }}>
                 {this.getLocations()}
-                {/* <InfoWindow onClose={this.onInfoWindowClose}>)
+                <InfoWindow marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
                     <div>
-                        <h1>{this.state.selectedPlace.name}</h1>
+                        <h4>{this.state.selectedPlace.name}</h4>
                     </div>
-                </InfoWindow> */}
+                </InfoWindow>
             </Map>
         )
     }

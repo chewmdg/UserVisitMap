@@ -102,8 +102,6 @@ class Main extends React.Component {
             this.Longitude= DEFAULTLONGITUDE;
             this.Zoom= DEFAULTZOOM;
         }
-         console.log("here")
-        console.log(e.target.value)
         this.setState({
             selectedRegion: e.target.value,
             mapCenter: {Latitude: this.Latitude, Longitude: this.Longitude},
@@ -123,6 +121,12 @@ class Main extends React.Component {
             dataType: "JSON",
             contentType: "application/JSON"
         }))
+    }
+
+    handleSignOutClick(){
+        $.getJSON('../api/Account/Logout', data => {
+            location.reload();
+        })
     }
 
     updateCities(region) {
@@ -154,6 +158,9 @@ class Main extends React.Component {
                         <select onChange={(e) => { this.handleRegionChange(e) }}>
                             {this.state.regions.map((x) => { return (<option key={x._id} value={x.name}>{x.name}</option>) })}
                         </select>
+                    </div>
+                    <div>
+                        <button onClick={() => {this.handleSignOutClick()}}>Logout</button>
                     </div>
                     <div>
                         <RegionTable cities={this.state.cities} visited={this.state.userVisits} handleChange={() => this.handleGetUserVisits()} />
