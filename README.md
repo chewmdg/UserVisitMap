@@ -1,5 +1,5 @@
 # UserVisitMap
-C#/React/MongoDB API. User can save locations they have visited on a map
+C#/React/MongoDB API. User can save locations they have visited on a map 
 
 . Fork Repository
 . Install Node
