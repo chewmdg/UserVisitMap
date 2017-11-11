@@ -1,7 +1,9 @@
 # UserVisitMap
 C#/React/MongoDB API. User can save locations they have visited on a map 
 
-. Fork Repository
+. Install git
+. Install .Net SDK (https://www.microsoft.com/net/learn/get-started/windows)
+. Fork Repository or (git clone https://github.com/chewmdg/UserVisitMap.git)
 . Install Node
 . run npm install
 . dotnet restore
