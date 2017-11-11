@@ -2,13 +2,13 @@
 C#/React/MongoDB API. User can save locations they have visited on a map 
 
 . Install git
-. Install .Net SDK (https://www.microsoft.com/net/learn/get-started/windows)
+. Install .Net 2.0 SDK (https://www.microsoft.com/net/learn/get-started/windows)
 . Fork Repository or (git clone https://github.com/chewmdg/UserVisitMap.git)
 . Install Node
-. run npm install
-. dotnet restore
-. webpack
-. dotnet run
+. in terminal run dotnet restore inside UserVisitMaps
+. in terminal run npm install from inside UserVisitMaps/ReactComponents
+. webpack (may need to npm install webpack --global)
+. dotnet run from UserVisitMaps directory
 
 NoSQL MongoDB instance BSON representation:
 City{
