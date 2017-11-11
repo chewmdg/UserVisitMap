@@ -8,3 +8,13 @@ C:\Users\mgibson\Source\Repos\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.
 C:\Users\mgibson\Source\Repos\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.AssemblyInfo.cs
 C:\Users\mgibson\Source\Repos\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.dll
 C:\Users\mgibson\Source\Repos\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.pdb
+C:\Workspace\UserVisitMap\bin\Debug\netcoreapp2.0\UserVisitMap.deps.json
+C:\Workspace\UserVisitMap\bin\Debug\netcoreapp2.0\UserVisitMap.runtimeconfig.json
+C:\Workspace\UserVisitMap\bin\Debug\netcoreapp2.0\UserVisitMap.runtimeconfig.dev.json
+C:\Workspace\UserVisitMap\bin\Debug\netcoreapp2.0\UserVisitMap.dll
+C:\Workspace\UserVisitMap\bin\Debug\netcoreapp2.0\UserVisitMap.pdb
+C:\Workspace\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.csproj.CoreCompileInputs.cache
+C:\Workspace\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.AssemblyInfoInputs.cache
+C:\Workspace\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.AssemblyInfo.cs
+C:\Workspace\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.dll
+C:\Workspace\UserVisitMap\obj\Debug\netcoreapp2.0\UserVisitMap.pdb

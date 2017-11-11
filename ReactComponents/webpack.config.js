@@ -4,7 +4,7 @@ module.exports = {
 
 entry: path.join(__dirname,'./index.jsx'),
 output: {
-     path: 'C:\\Users\\mgibson\\Source\\Repos\\UserVisitMap\\wwwroot',
+     path: 'C:\\Workspace\\UserVisitMap\\wwwroot',
      filename: 'JSBundle.js'
 },
 module: {

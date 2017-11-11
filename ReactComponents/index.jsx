@@ -21,11 +21,11 @@ class Main extends React.Component {
             userVisits: [],
             selectedRegion: "",
             isAuthenticated: false,
-            mapCenter:{
-                Latitude:DEFAULTLATITUDE,
-                Longitude:DEFAULTLONGITUDE
+            mapCenter: {
+                Latitude: DEFAULTLATITUDE,
+                Longitude: DEFAULTLONGITUDE
             },
-            mapZoom:DEFAULTZOOM
+            mapZoom: DEFAULTZOOM
         };
     }
 
@@ -90,22 +90,21 @@ class Main extends React.Component {
     }
 
     handleRegionChange(e) {
-        let center=new RegionCenter();
-        let selectedCenter= center.region.filter((x)=>{return(x.RegionName == e.target.value)})[0]
-        if(selectedCenter)
-        {
-        this.Latitude=selectedCenter.Latitude
-        this.Longitude=selectedCenter.Longitude
-        this.Zoom=selectedCenter.Zoom
-        }else{
-            this.Latitude= DEFAULTLATITUDE;
-            this.Longitude= DEFAULTLONGITUDE;
-            this.Zoom= DEFAULTZOOM;
+        let center = new RegionCenter();
+        let selectedCenter = center.region.filter((x) => { return (x.RegionName == e.target.value) })[0]
+        if (selectedCenter) {
+            this.Latitude = selectedCenter.Latitude
+            this.Longitude = selectedCenter.Longitude
+            this.Zoom = selectedCenter.Zoom
+        } else {
+            this.Latitude = DEFAULTLATITUDE;
+            this.Longitude = DEFAULTLONGITUDE;
+            this.Zoom = DEFAULTZOOM;
         }
         this.setState({
             selectedRegion: e.target.value,
-            mapCenter: {Latitude: this.Latitude, Longitude: this.Longitude},
-            mapZoom:(e.target.value == "All Regions")?DEFAULTZOOM:this.Zoom
+            mapCenter: { Latitude: this.Latitude, Longitude: this.Longitude },
+            mapZoom: (e.target.value == "All Regions") ? DEFAULTZOOM : this.Zoom
         },
             this.updateCities(e.target.value)
         )
@@ -123,7 +122,7 @@ class Main extends React.Component {
         }))
     }
 
-    handleSignOutClick(){
+    handleSignOutClick() {
         $.getJSON('../api/Account/Logout', data => {
             location.reload();
         })
@@ -148,13 +147,27 @@ class Main extends React.Component {
                         </select>
                     </div>
                     <div>
-                        <button onClick={() => {this.handleSignOutClick()}}>Logout</button>
+                        <button onClick={() => { this.handleSignOutClick() }}>Logout</button>
+                    </div>
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-xs-7">
+                                <RegionTable cities={this.state.cities} visited={this.state.userVisits} handleChange={() => this.handleGetUserVisits()} />
+                            </div>
+                            <div className="col-xs-1">
+                                <ol>Visited Regions
+                                    {this.state.userVisits.map(x => <li key={x._id}>{x.region}</li>)}
+                                </ol>
+                            </div>
+                            <div className="col-xs-1">
+                                <ol>Visited Cities
+                                    {this.state.userVisits.map(d => <li key={d._id}>{d.city}</li>)}
+                                </ol>
+                            </div>
+                        </div>
                     </div>
                     <div>
-                        <RegionTable cities={this.state.cities} visited={this.state.userVisits} handleChange={() => this.handleGetUserVisits()} />
-                    </div>
-                    <div>
-                        <MapContainer visited={this.state.userVisits} mapCenter={this.state.mapCenter} mapZoom={this.state.mapZoom}/>
+                        <MapContainer visited={this.state.userVisits} mapCenter={this.state.mapCenter} mapZoom={this.state.mapZoom} />
                     </div>
                 </div>
             )
