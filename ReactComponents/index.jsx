@@ -19,6 +19,7 @@ class Main extends React.Component {
             users: [],
             vmCities: [],
             userVisits: [],
+            userVisitRegions: [],
             selectedRegion: "",
             isAuthenticated: false,
             mapCenter: {
@@ -84,6 +85,7 @@ class Main extends React.Component {
             this.setState(
                 {
                     userVisits: data,
+                    userVisitRegions: [...new Set(data.map((x) => x.region))]
                 }
             )
         })
@@ -155,13 +157,13 @@ class Main extends React.Component {
                                 <RegionTable cities={this.state.cities} visited={this.state.userVisits} handleChange={() => this.handleGetUserVisits()} />
                             </div>
                             <div className="col-xs-1">
-                                <ol>Visited Regions
-                                    {this.state.userVisits.map(x => <li key={x._id}>{x.region}</li>)}
+                                <ol>Visited Cities
+                                    {this.state.userVisits.map(d => <li key={d._id}>{d.city}, {d.region}</li>)}
                                 </ol>
                             </div>
                             <div className="col-xs-1">
-                                <ol>Visited Cities
-                                    {this.state.userVisits.map(d => <li key={d._id}>{d.city}</li>)}
+                                <ol>Visited Regions
+                                    {this.state.userVisitRegions.map(x => <li key={x}>{x}</li>)}
                                 </ol>
                             </div>
                         </div>
