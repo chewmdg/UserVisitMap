@@ -9,7 +9,7 @@ namespace UserVisitMap.Utilities
     {
         public static IMongoCollection<T> mongoConnect<T>(string document)
         {
-            var client = new MongoClient(@"mongodb://uservisitmap:TCTRSPF6Jjl9YlniGWZfNNxNmTIzrQ2orBasfq1esGoVYuD3PJRsnSdzjL3vCIeD0J67jwFVTosZxKNYcwtvfA==@uservisitmap.documents.azure.com:10255/?ssl=true&replicaSet=globaldb");
+            var client = new MongoClient("CLIENTKEYHERE")
             var database = client.GetDatabase("UserVisitMap");
             return database.GetCollection<T>(document);
         }
